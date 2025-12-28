@@ -2829,6 +2829,7 @@
 #include "modular\Neu_Food\code\raw\raw_veggies.dm"
 #include "modular\Neu_Food\code\recipes\drying_recipes.dm"
 #include "modular\Neu_Food\code\recipes\stew_recipes.dm"
+#include "modular\camping_tent\camping_tent.dm"
 #include "modular\ze_genesis_call\genesis_call.dm"
 #include "_statpacks.dm"
 #include "_virtue.dm"
