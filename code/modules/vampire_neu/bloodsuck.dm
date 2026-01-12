@@ -136,7 +136,8 @@
 
 	var/datum/mind/original_mind = mind
 
-	if(alert(src, "Would you like to rise as a vampire spawn? Warning: refusal may or may not mortally wound you.", "THE CURSE OF KAIN", "MAKE IT SO", "I RESCIND") != "MAKE IT SO")
+	var/vampire_choice = tgui_alert(src, "Would you like to rise as a vampire spawn? Warning: refusal may or may not mortally wound you.", "THE CURSE OF KAIN", list("MAKE IT SO", "I RESCIND"), 4 MINUTES)
+	if(vampire_choice != "MAKE IT SO")
 		to_chat(sire, span_danger("Your victim twitches, yet the curse fails to take over. As if something otherworldly intervenes..."))
 		if(HAS_TRAIT_FROM(src, TRAIT_REFUSED_VAMP_CONVERT, REF(sire)))
 			return
@@ -146,7 +147,11 @@
 		ADD_TRAIT(src, TRAIT_REFUSED_VAMP_CONVERT, REF(sire))
 		return
 
-	fully_heal(TRUE, FALSE)
+	revive(full_heal = TRUE)
+	if(client)
+		client.verbs.Remove(GLOB.ghost_verbs)
+	remove_status_effect(/datum/status_effect/debuff/rotted_zombie)
+	mind?.remove_antag_datum(/datum/antagonist/zombie)
 	visible_message(span_danger("Some dark energy begins to flow from [sire] into [src]..."))
 	visible_message(span_red("[src] rises as a new spawn!"))
 	original_mind?.transfer_to(src, TRUE)
